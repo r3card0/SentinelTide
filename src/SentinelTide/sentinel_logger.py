@@ -3,6 +3,25 @@ from pathlib import Path
 import re
 from datetime import datetime
 
+class SentinelLogger:
+    """
+    Logging system to track events of the ETL
+
+    This class lets implement a logger allowing set a name.
+    Implement handlers by a private method
+    
+    """
+
+    def __init__(self, project_name:str, log_dir:str = "logs"):
+        """
+        Initialized the SentinelLogger with an ETL name and default
+        'logs' log directory name.
+
+        Args:
+            project_name (str): ETL name of the logger
+            log_dir (str, default value -> logs): log directory name
+        """
+
 def _process_project_name(project_name:str) -> str:
     """
     Normalize the project name for safe filesystem usage.
@@ -40,6 +59,17 @@ def _process_project_name(project_name:str) -> str:
 
     return name
 
+def _setup_handlers():
+    """
+    Defines the internal format of the logger
+    """
+
+    # Set the format
+    fomatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+
+    # Handler: File
+    file_handler = logging.FileHandler()
+
 
 def setup_logging(etl_process_name:str) -> logging.Logger:
     """
@@ -71,20 +101,23 @@ def setup_logging(etl_process_name:str) -> logging.Logger:
     project_name = _process_project_name(etl_process_name)
     
     log_dir = "logs"
-    os.makedirs(log_dir, exist_ok=True)
+    log_dir_path_obj = Path(log_dir)
 
-    # Name of the file based on the current date
-    log_filename = f"{project_name}_{datetime.now().strftime('%Y-%m-%d')}.log"
-    log_path = os.path.join(log_dir,log_filename)
+    # Validate folder existence
+    log_dir_path_obj.mkdir(parents=True, exist_ok=True)
 
-    # Configuration
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        handlers=[
-            logging.FileHandler(log_path),  # Save in file
-            logging.StreamHandler()         # Show in terminal
-        ]
-    )
+    # Define the name of the log
+    log_filename = f"etl_{project_name}_{datetime.now().strftime('%Y-%m-%d')}.log"
 
-    return logging.getLogger(__name__)
+    # Define the location of the log file
+    log_path = log_dir_path_obj / log_filename
+
+    # Create object logger
+    _logger = logging.getLogger(project_name)
+
+    # Defin the level
+    _logger.setLevel(logging.INFO)
+
+    # Avoid duplicity
+    if not _logger.handlers:
+        _setup_handlers()
