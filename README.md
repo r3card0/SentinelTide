@@ -6,7 +6,7 @@
 ![Domain](https://img.shields.io/badge/Domain-ETL-orange)
 ![Focus](https://img.shields.io/badge/Focus-Logging-green)
 ![License](https://img.shields.io/badge/License-GPLv3-blue)
-![Version](https://img.shields.io/badge/version-0.1.0-purple)
+![Version](https://img.shields.io/badge/version-0.2.0-purple)
 # 🧭 Overview
 
 Sentinel Tide is a lightweight, reusable event tracking system designed for ETL pipelines.
@@ -69,7 +69,7 @@ SentinelTide/
 The project includes a `pyproject.toml` file to support installacion as a dependency:
 
 ```bash
-pip install git+https://github.com/r3card0/SentinelTide.git@0.1.0
+pip install git+https://github.com/r3card0/SentinelTide.git@0.2.0
 ```
 
 
@@ -77,14 +77,14 @@ pip install git+https://github.com/r3card0/SentinelTide.git@0.1.0
 
 # 🚗 Usage
 
-In your `main.py` file:
+In a Python file `main.py`:
 
 ```python
 # This is the main.py file
 
-from SentinelTide.sentinel_logger import setup_logging
+from SentinelTide.sentinel_logger import SentinelLogger
 
-logger = setup_logging("ETL Geodata")
+logger = SentinelLogger("geodata").get_logger()
 
 logger.info("Connection successfully established.")
 logger.warning("Configuration section missing.")
@@ -94,7 +94,7 @@ logger.error("Data extraction failed.")
 Log files will be generated in the `logs/` directory using the format: 
 
 ```bash
-etl_geodata_20260302.log
+logs/etl_geodata_2026-05-14.log
 ```
 
 
