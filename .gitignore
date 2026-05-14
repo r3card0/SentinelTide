@@ -1,4 +1,6 @@
 .vscode/
 test/
-src/SentinelTide/__pycache__
-src/sentinel_tide.egg-info
+__pycache__
+*.egg-info
+.IGNORE
+venv_test
