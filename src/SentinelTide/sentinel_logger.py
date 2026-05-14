@@ -1,6 +1,6 @@
-import os
-import re
 import logging
+from pathlib import Path
+import re
 from datetime import datetime
 
 def _process_project_name(project_name:str) -> str:
@@ -19,17 +19,22 @@ def _process_project_name(project_name:str) -> str:
         
     Raises:
         TypeError: If project_name is not a string
+        ValueError: If the input is not a string or is only whitespace
 
     """
+
+    # Validate project name is a string
     if not isinstance(project_name,str):
-        raise TypeError("'project_name' must be a string")
+        raise TypeError(f"'{project_name}' must be a string")
     
-    # Normalize basic formatting
-    name = project_name.strip().lower()
+    # Validate project_name is not an empty string
+    if not project_name.strip().lower():
+        raise ValueError(f"❌ ValueError: The '{project_name}' string cannot be empty or only whitespace")
 
     # Remove all characters except letters, numbers, and underscore
-    name = re.sub(r"[^a-z0-9_]+","_",name)
+    name = re.sub(r"[^a-z0-9_]+","_",project_name)
 
+    # Remove surrounding underscores
     name = name.strip("_")
 
 
