@@ -1,3 +1,3 @@
-from .sentinel_logger import setup_logging
+from .sentinel_logger import SentinelLogger
 
-all = ["setup_logging"]
+all = ["SentinelLogger"]
