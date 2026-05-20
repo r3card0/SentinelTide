@@ -69,7 +69,7 @@ SentinelTide/
 The project includes a `pyproject.toml` file to support installacion as a dependency:
 
 ```bash
-pip install git+https://github.com/r3card0/SentinelTide.git@0.2.0
+pip install git+https://github.com/r3card0/SentinelTide.git@v0.2.0
 ```
 
 
